@@ -18,15 +18,16 @@ class main  {
     }
 }
 
-class html {
+class html
+{
 
-    public static function generateTable($records) {
-
+    public static function generateTable($records)
+    {
         $count = 0;
 
         foreach ($records as $record) {
 
-            if($count == 0) {
+            if ($count == 0) {
 
                 $array = $record->returnArray();
                 $fields = array_keys($array);
@@ -39,8 +40,12 @@ class html {
                 $values = array_values($array);
                 print_r($values);
             }
+
             $count++;
+
         }
+
+
     }
 }
 
