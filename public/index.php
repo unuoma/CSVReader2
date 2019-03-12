@@ -11,39 +11,57 @@ class main  {
 
     static public function start($filename) {
 
-        $records = csv::getRecords($filename);
-        $table = html::generateTable($records);
+        $myrecords = csv::getRecords($filename);
+        $table = html::generateTable($myrecords);
+        print("<h2>My current inventory</h2>");
+        print($table);
 
 
     }
 }
 
-class html {
+class html{
 
     public static function generateTable($records) {
-
         $count = 0;
-
+        $tablestring = '';
+        $tablestring .= "<html><head> <!-- Latest compiled and minified CSS -->
+        <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css\">
+        <!-- jQuery library -->
+        <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js\"></script> </head><body><table class='table table-striped'>";
         foreach ($records as $record) {
+            $array = $record->returnArray();
+            $fields = array_keys($array);
+            $values = array_values($array);
+            if ($count == 0) {
+                $tablestring .= '<thead class="table table-bordered"><tr>';
+                $tablestring .= '<th scope = "col"></th>';
+                foreach ($fields as $h) {
+                    $tablestring .= '<th scope = "col">';
+                    $tablestring .= $h;
+                    $tablestring .= '</th>';
+                }
 
-            if($count == 0) {
-
-                $array = $record->returnArray();
-                $fields = array_keys($array);
-                $values = array_values($array);
-                print_r($fields);
-                print_r($values);
-
-            } else {
-                $array = $record->returnArray();
-                $values = array_values($array);
-                print_r($values);
+                $tablestring .= '</tr></thead>';
+                $tablestring .= '<tbody class="table table-bordered">';
             }
-            $count++;
+            $tablestring .= '<tr><th scope = "row">';
+            foreach($values as $k){
+                $tablestring .= '<td>';
+                $tablestring .= $k;
+                $tablestring .= '</td>';
+            }
+            $tablestring .= '</tr>';
+
+            $count=1;
         }
+        $tablestring .= '</tbody></table>';
+
+        return $tablestring;
     }
 }
-
 class csv {
 
 
